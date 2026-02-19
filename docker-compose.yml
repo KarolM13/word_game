@@ -1,0 +1,25 @@
+
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: wordgame
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: simple
+    ports:
+    - "5432:5432"
+    volumes:
+    - postgres_data:/var/lib/postgresql/data
+  web:
+    build: .
+    ports:
+      - "5050:5050"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=development
+    depends_on:
+      - "db"
+volumes:
+  postgres_data:
