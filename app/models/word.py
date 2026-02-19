@@ -21,7 +21,7 @@ class Word(db.Model):
     @classmethod
     def add_word(cls, word, category):
         """Dodaj nowe słowo do bazy"""
-        new_word = cls(word=word.lower(), category=category)
+        new_word = cls(word=word, category=category)
         db.session.add(new_word)
         db.session.commit()
         return new_word

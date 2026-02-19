@@ -25,7 +25,6 @@ function startNewGame() {
 
         const input = document.getElementById("guess");
         input.maxLength = wordLength;
-        input.minLength = wordLength;
         input.placeholder = "─".repeat(wordLength);
         updateInfo(data.max_attempts)
 
