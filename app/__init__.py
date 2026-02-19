@@ -9,10 +9,14 @@ migrate = Migrate()
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-        'DATABASE_URL', 'postgresql://admin:simple@db:5432/wordgame')
+    #app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+     #   'DATABASE_URL', 'postgresql://admin:simple@db:5432/wordgame')
+    #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    database_url = os.environ.get("DATABASE_URL")
+    if database_url:
+        database_url = database_url.replace("postgres://", "postgresql://")
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    
     db.init_app(app)
     migrate.init_app(app, db)
     
@@ -28,9 +32,9 @@ def create_app():
     from app.models.word import Word
     
     with app.app_context():
-        db.create_all()
-        from app.seeds import seed_words
-        seed_words()
+        #db.create_all()
+        #from app.seeds import seed_words
+        #seed_words()
         print("Dodano przykładowe słowa do bazy!")
     
     return app
