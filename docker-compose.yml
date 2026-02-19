@@ -19,6 +19,7 @@ services:
       - .:/app
     environment:
       - FLASK_ENV=development
+      - DATABASE_URL=postgresql://admin:simple@db:5432/wordgame
     depends_on:
       - "db"
 volumes:
