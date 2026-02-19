@@ -1,10 +1,14 @@
 let currentGameId = null;
 let wordLength = 0;
+let currentCategory = "";
 
 window.addEventListener('load', function() {
     startNewGame();
 });
-
+function updateInfo(remaining) {
+    document.getElementById("info").textContent =
+        `Category: ${currentCategory} | Letters: ${wordLength} | Attempts remaining: ${remaining}`;
+}
 function startNewGame() {
     document.getElementById("board").innerHTML = "";
     document.getElementById("guess").value = "";
@@ -17,14 +21,14 @@ function startNewGame() {
     .then(data => {
         currentGameId = data.game_id;
         wordLength = data.word_length;
+        currentCategory = data.category
 
         const input = document.getElementById("guess");
         input.maxLength = wordLength;
         input.minLength = wordLength;
         input.placeholder = "─".repeat(wordLength);
+        updateInfo(data.max_attempts)
 
-        document.getElementById("info").textContent =
-            `Category: ${data.category} | Letters: ${data.word_length} | Attempts: ${data.max_attempts}`;
     })
     .catch(error => console.error('Error starting game:', error));
 }
@@ -85,7 +89,7 @@ document.getElementById("guessBtn").addEventListener("click", function() {
             board.appendChild(msg);
             currentGameId = null;
         } else {
-            document.getElementById("info").textContent = `Attempts remaining: ${data.remaining}`;
+            updateInfo(data.remaining)
         }
 
         document.getElementById("guess").value = "";
