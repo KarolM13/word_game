@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Word Game</h1>
+
+        <div id="info" class="info"></div>
+
+        <div id="board" class="board"></div>
+
+        <div class="input-area">
+            <input type="text" id="guess" maxlength="6" placeholder="Wpisz słowo...">
+            <button id="guessBtn">Zgadnij</button>
+        </div>
+
+        <button id="newGameBtn">Nowa gra</button>
+    </div>
+
+    <footer>
+        <p>Karol Mach &copy; Beta Version</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+</body>
+</html>

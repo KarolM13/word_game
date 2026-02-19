@@ -1,0 +1,137 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #121213;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+h1 {
+    font-size: 2rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #3a3a3c;
+    padding-bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.info {
+    font-size: 0.9rem;
+    color: #818384;
+    text-align: center;
+}
+
+.board {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.guess-row {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+}
+
+.guess-row span {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 4px;
+}
+
+.green  { background-color: #538d4e; }
+.yellow { background-color: #b59f3b; }
+.grey   { background-color: #3a3a3c; }
+
+.input-area {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+input {
+    flex: 1;
+    padding: 12px;
+    font-size: 1rem;
+    background-color: #121213;
+    border: 2px solid #3a3a3c;
+    border-radius: 4px;
+    color: #ffffff;
+    text-transform: uppercase;
+    outline: none;
+    text-align: center;
+    letter-spacing: 4px;
+}
+
+input:focus {
+    border-color: #818384;
+}
+
+button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #538d4e;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #6aaf63;
+}
+
+#newGameBtn {
+    background-color: #3a3a3c;
+    width: 100%;
+}
+
+#newGameBtn:hover {
+    background-color: #4a4a4c;
+}
+
+.message {
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 8px;
+}
+
+.message.win  { color: #538d4e; }
+.message.lose { color: #e74c3c; }
+
+footer {
+    text-align: center;
+    color: #ececec;
+    font-size: 0.75rem;
+    margin-top: auto;
+    padding: 20px;
+}

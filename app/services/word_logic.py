@@ -1,13 +1,14 @@
 class WordGame():
     def __init__(self,word):
         self.word = word.lower()
+        self.lenght = len(word)
         self.attemps = 0
         self.max_attempts = 6
         self.over = False
         self.win = False
     def MakeGuess(self,guess):
         if self.over == True:
-            return {"error:" "Game is already over"}
+            return {"error":"Game is already over"}
         self.attemps += 1
         result = self.CheckLetters(guess.lower())
         if guess.lower() == self.word:
@@ -16,13 +17,18 @@ class WordGame():
         elif self.attemps >= self.max_attempts:
             self.over = True
         
-        return{
+        response = {
             "result": result,
             "attemps":self.attemps,
             "remaining":self.max_attempts - self.attemps,
             "is_won": self.win,
             "is_over": self.over
         }
+
+        if self.over and not self.win:
+            response["answer"] = self.word
+
+        return response
     def CheckLetters(self,guess):
         result = ["grey"] * len(guess)
         used_letters = [0]* len(self.word)
