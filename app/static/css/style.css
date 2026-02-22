@@ -244,15 +244,17 @@ button:hover {
 }
 
 #nextWordBtn {
-    background-color: #b59f3b;
+    background-color: #176c08;
+    display: block;
+    margin: 10px auto;
 }
 
 #nextWordBtn:hover {
-    background-color: #d4b94a;
+    background-color: #07bf0d;
 }
 
 .back-btn {
-    background-color: #b59f3b;
+    background-color: #81807c;
     color: #ffffff;
     font-size: 0.9rem;
     padding: 10px 24px;
@@ -261,7 +263,7 @@ button:hover {
 }
 
 .back-btn:hover {
-    background-color: #d4b94a;
+    background-color: #9e2007;
     color: #ffffff;
 }
 
