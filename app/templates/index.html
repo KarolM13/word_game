@@ -1,25 +1,69 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Word Game</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 </head>
 <body>
-    <div class="container">
+
+    <div id="menu" class="container">
         <h1>Word Game</h1>
 
+        <div class="menu-layout">
+            <div class="menu-left">
+                <p class="subtitle">Choose your mode</p>
+                <div class="menu-buttons">
+                    <button id="dailyBtn">📅 Daily Word</button>
+                    <button id="streakBtn">🔥 Streak Mode</button>
+                </div>
+            </div>
+
+            <div class="leaderboard">
+                <h2>🏆 Leaderboard</h2>
+                <table id="leaderboardTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nick</th>
+                            <th>Streak</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody">
+                        <tr><td colspan="3">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="nickScreen" class="container hidden">
+        <h1>🔥 Streak Mode</h1>
+        <p class="subtitle">Enter your nick to start</p>
+        <div class="input-area">
+            <input type="text" id="nickInput" placeholder="Your nick..." maxlength="25">
+            <button id="startStreakBtn">Start</button>
+        </div>
+        <button id="backFromNickBtn" class="back-btn">← Back</button>
+    </div>
+
+    <div id="game" class="container hidden">
+        <h1 id="gameTitle">Word Game</h1>
+
         <div id="info" class="info"></div>
+        <div id="streakCounter" class="streak-counter" style="display:none;"></div>
 
         <div id="board" class="board"></div>
 
         <div class="input-area">
-            <input type="text" id="guess" placeholder="Wpisz słowo...">
-            <button id="guessBtn">Zgadnij</button>
+            <input type="text" id="guess" placeholder="─────">
+            <button id="guessBtn">Guess</button>
+            <button id="nextWordBtn" class="hidden">Next =></button>
         </div>
 
-        <button id="newGameBtn">Nowa gra</button>
+        <button id="backBtn" class="back-btn">← Back to Menu</button>
     </div>
 
     <footer>

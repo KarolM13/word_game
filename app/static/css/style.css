@@ -8,21 +8,147 @@ body {
     background-color: #121213;
     color: #ffffff;
     font-family: Arial, sans-serif;
+    min-height: 100vh;
+    padding: 40px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
-    padding: 40px 20px;
 }
+
+/*Containers */
 
 .container {
     width: 100%;
-    max-width: 400px;
+    max-width: 900px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
 }
+
+.hidden {
+    display: none !important;
+}
+
+/* Menu */
+
+#menu {
+    flex-direction: column;
+    align-items: center;
+}
+
+.menu-layout {
+    display: flex;
+    gap: 60px;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.menu-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    min-width: 260px;
+    flex: 0 0 auto;
+}
+
+.subtitle {
+    color: #818384;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.menu-buttons button {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 14px;
+}
+
+#streakBtn {
+    background-color: #b59f3b;
+}
+
+#streakBtn:hover {
+    background-color: #d4b94a;
+}
+
+/*Leaderboard*/
+
+.leaderboard {
+    min-width: 280px;
+    flex: 1;
+    max-width: 380px;
+}
+
+.leaderboard h2 {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    border-bottom: 2px solid #3a3a3c;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+#leaderboardTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#leaderboardTable th {
+    color: #818384;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    text-align: left;
+    border-bottom: 1px solid #3a3a3c;
+}
+
+#leaderboardTable td {
+    padding: 8px 10px;
+    font-size: 0.95rem;
+    border-bottom: 1px solid #1e1e1f;
+}
+
+#leaderboardTable tr:first-child td { color: #ffd700; }
+#leaderboardTable tr:nth-child(2) td { color: #c0c0c0; }
+#leaderboardTable tr:nth-child(3) td { color: #cd7f32; }
+
+/* Nick screen */
+
+#nickScreen {
+    max-width: 400px;
+}
+
+#nickInput {
+    text-transform: none;
+    letter-spacing: 0;
+    text-align: left;
+    padding-left: 16px;
+}
+
+/* Game view */
+
+#game {
+    max-width: 420px;
+}
+
+.streak-counter {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #b59f3b;
+    letter-spacing: 2px;
+}
+
+/* Title */
 
 h1 {
     font-size: 2rem;
@@ -34,11 +160,15 @@ h1 {
     text-align: center;
 }
 
+/* Info */
+
 .info {
     font-size: 0.9rem;
     color: #818384;
     text-align: center;
 }
+
+/* Board */
 
 .board {
     display: flex;
@@ -69,6 +199,8 @@ h1 {
 .yellow { background-color: #b59f3b; }
 .grey   { background-color: #3a3a3c; }
 
+/* Input */
+
 .input-area {
     display: flex;
     gap: 8px;
@@ -93,6 +225,8 @@ input:focus {
     border-color: #818384;
 }
 
+/* Buttons */
+
 button {
     padding: 12px 20px;
     font-size: 1rem;
@@ -109,14 +243,29 @@ button:hover {
     background-color: #6aaf63;
 }
 
-#newGameBtn {
-    background-color: #3a3a3c;
-    width: 100%;
+#nextWordBtn {
+    background-color: #b59f3b;
 }
 
-#newGameBtn:hover {
-    background-color: #4a4a4c;
+#nextWordBtn:hover {
+    background-color: #d4b94a;
 }
+
+.back-btn {
+    background-color: #b59f3b;
+    color: #ffffff;
+    font-size: 0.9rem;
+    padding: 10px 24px;
+    width: auto;
+    align-self: center;
+}
+
+.back-btn:hover {
+    background-color: #d4b94a;
+    color: #ffffff;
+}
+
+/* Messages */
 
 .message {
     font-size: 1rem;
@@ -128,9 +277,11 @@ button:hover {
 .message.win  { color: #538d4e; }
 .message.lose { color: #e74c3c; }
 
+/* Footer */
+
 footer {
     text-align: center;
-    color: #ececec;
+    color: #3a3a3c;
     font-size: 0.75rem;
     margin-top: auto;
     padding: 20px;
