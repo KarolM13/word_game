@@ -56,8 +56,8 @@ function updateKeyboard(guess,result){
         const key = document.getElementById(`key-${guess[i].toUpperCase()}`)
         if(!key) return;
         if(key.classList.contains("green")) return;
-        if(key.classList.contains("grey") && (key.classList.contains("green"))) return;
-         key.classList.remove("green","yellow","grey");
+        if (color === "grey" && key.classList.contains("yellow")) return;
+        key.classList.remove("green","yellow","grey");
         key.classList.add(color);
         
         if (color =="grey")
