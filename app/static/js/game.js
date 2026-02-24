@@ -4,6 +4,12 @@ let currentCategory = "";
 let currentMode = null;
 let currentStreak = 0;
 let currentNick = "";
+const words =[
+    ['Q','W','E','R','T','Y','U','I','O','P'],
+    ['A','S','D','F','G','H','J','K','L'],
+    ['Z','X','C','V','B','N','M'],
+    ['Ą','Ć','Ę','Ł','Ń','Ó','Ś','Ź','Ż']
+]
 
 function showMenu() {
     document.getElementById("menu").classList.remove("hidden");
@@ -23,7 +29,42 @@ function showNickScreen() {
     document.getElementById("game").classList.add("hidden");
     document.getElementById("nickScreen").classList.remove("hidden");
 }
-
+function BuildKeyboard(){
+    const keyboard = document.getElementById("keyboard");
+    keyboard.innerHTML = "";
+    words.forEach(row =>{
+        const rowDiv = document.createElement("div");
+        rowDiv.classList.add("keyboard-row");
+        row.forEach(letter =>{
+            const btn = document.createElement("button");
+            btn.textContent = letter;
+            btn.classList.add("key");
+            btn.id =`key-${letter}`;
+            btn.addEventListener("click", () =>{
+                const input = document.getElementById("guess");
+                if(input.value.length < wordLength){
+                    input.value += letter;
+                }
+            });
+            rowDiv.appendChild(btn);
+        });
+        keyboard.appendChild(rowDiv);
+    });
+}
+function updateKeyboard(guess,result){
+    result.forEach((color,i)=>{
+        const key = document.getElementById(`key-${guess[i].toUpperCase()}`)
+        if(!key) return;
+        if(key.classList.contains("green")) return;
+        key.classList.remove("green","yellow","grey");
+        key.classList.add(color);
+        if (color =="grey")
+        {
+            key.disabled = true;
+            key.style.opacity = "0.3";
+        }
+    })
+}
 function loadLeaderboard() {
     fetch("/api/leaderboard")
         .then(r => r.json())
@@ -76,6 +117,7 @@ function startDaily() {
             input.maxLength = wordLength;
             input.placeholder = "─".repeat(wordLength);
             updateInfo(data.max_attempts);
+            BuildKeyboard();
         })
         .catch(err => console.error("Error starting daily:", err));
 }
@@ -106,6 +148,7 @@ function startStreak(nick) {
             input.maxLength = wordLength;
             input.placeholder = "─".repeat(wordLength);
             updateInfo(data.max_attempts);
+            BuildKeyboard();
         })
         .catch(err => console.error("Error starting streak:", err));
 }
@@ -166,6 +209,7 @@ document.getElementById("guessBtn").addEventListener("click", function () {
                 row.appendChild(letter);
             });
             board.appendChild(row);
+            updateKeyboard(guessValue,data.result);
 
             if (data.is_won) {
                 confetti({
