@@ -56,12 +56,19 @@ function updateKeyboard(guess,result){
         const key = document.getElementById(`key-${guess[i].toUpperCase()}`)
         if(!key) return;
         if(key.classList.contains("green")) return;
-        key.classList.remove("green","yellow","grey");
+        if(key.classList.contains("grey") && (key.classList.contains("green"))) return;
+         key.classList.remove("green","yellow","grey");
         key.classList.add(color);
+        
         if (color =="grey")
         {
             key.disabled = true;
             key.style.opacity = "0.3";
+        }
+        if((color =="green" || color =="yellow"))
+        {
+            key.disabled = false;
+            key.style.opacity ="1";
         }
     })
 }
@@ -210,7 +217,6 @@ document.getElementById("guessBtn").addEventListener("click", function () {
             });
             board.appendChild(row);
             updateKeyboard(guessValue,data.result);
-
             if (data.is_won) {
                 confetti({
                     particleCount:100,
