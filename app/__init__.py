@@ -29,6 +29,7 @@ def create_app():
     with app.app_context():
         from app.models.word import Word
         from app.models.score import Score
+        from app.models.user import User
         db.create_all()
         from app.seeds import seed_words
         seed_words()

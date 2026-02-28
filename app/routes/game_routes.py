@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.services.word_logic import WordGame
 from app.models.word import Word
 from app.models.score import Score
+from app.models.user import User
 from app import db
 import secrets
 
@@ -128,3 +129,20 @@ def leaderboard():
             "date": s.date.strftime("%d-%m-%Y")
         } for s in top_scores
     ])
+
+@game_bp.route("/api/register_user",methods=["POST"])
+def register_user():
+    data = request.get_json()
+    nick = data.get("nick")
+    if not nick:
+        return jsonify({"error": "Nick is required"}),400
+    if User.query.filter_by(nick=nick).first():
+        return jsonify({"error": "Nick already exists"}),400
+    password = data.get("password")
+    if not password:
+        return jsonify({"error": "Password is required"}),400
+    try:
+        User.add_user(nick,password)
+        return jsonify({"message":"User registered succesfully!"})
+    except Exception as e:
+        return jsonify({"error":"Registration failed"}),500
