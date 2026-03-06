@@ -1,9 +1,10 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify,session
 from app.services.word_logic import WordGame
 from app.models.word import Word
 from app.models.score import Score
 from app.models.user import User
 from app import db
+from app import limiter
 import secrets
 
 game_bp = Blueprint("game", __name__)
@@ -76,7 +77,7 @@ def daily_game():
 
 @game_bp.route("/api/streak/start", methods=["GET"])
 def streak_start():
-    nick = request.args.get("nick")
+    nick = session.get("nick")
     if not nick:
         return jsonify({"error": "Nick is required"})
     random_word = Word.get_random_word()
@@ -143,6 +144,37 @@ def register_user():
         return jsonify({"error": "Password is required"}),400
     try:
         User.add_user(nick,password)
-        return jsonify({"message":"User registered succesfully!"})
+        session["nick"] = nick
+        return jsonify({"success": True})
     except Exception as e:
         return jsonify({"error":"Registration failed"}),500
+
+@game_bp.route("/api/login_user",methods=["POST"])
+@limiter.limit("5 per minute")
+def login():
+    data = request.get_json()
+    nick = data.get("nick")
+    password = data.get("password")
+    if not nick or not password:
+        return jsonify({"error": "Nick and password are required"}),400
+    user = User.check_password(nick,password)
+    if user:
+        session["nick"] = user.nick
+        return jsonify({"success": True})
+    else:
+        return jsonify({"error":"Invalid nick or password"})
+    
+@game_bp.route("/api/logout", methods =["POST"])
+def logout():
+    if session.get("nick"):
+        session.pop('nick',None)
+        return jsonify({"success": True})
+    else:
+        return jsonify({"error":"U must be login to logout"}),400
+
+@game_bp.route("/api/me", methods =["GET"])
+def me():
+    nick = session.get("nick")
+    if nick:
+        return jsonify({"nick":nick})
+    return jsonify({"nick": None})

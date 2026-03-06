@@ -24,11 +24,6 @@ function showGame() {
     document.getElementById("nickScreen").classList.add("hidden");
 }
 
-function showNickScreen() {
-    document.getElementById("menu").classList.add("hidden");
-    document.getElementById("game").classList.add("hidden");
-    document.getElementById("nickScreen").classList.remove("hidden");
-}
 function BuildKeyboard(){
     const keyboard = document.getElementById("keyboard");
     keyboard.innerHTML = "";
@@ -131,7 +126,6 @@ function startDaily() {
 
 function startStreak(nick) {
     currentMode = "streak";
-    currentNick = nick;
     currentStreak = 0;
     showGame();
     document.getElementById("board").innerHTML = "";
@@ -144,7 +138,7 @@ function startStreak(nick) {
     streakCounter.classList.remove("hidden");
     streakCounter.textContent = `Streak: ${currentStreak}`;
 
-    fetch(`/api/streak/start?nick=${encodeURIComponent(nick)}`)
+    fetch(`/api/streak/start`)
         .then(r => r.json())
         .then(data => {
             if (data.error) { alert(data.error); showMenu(); return; }
@@ -167,7 +161,7 @@ function nextStreakWord() {
     document.getElementById("nextWordBtn").classList.add("hidden");
     document.getElementById("guess").classList.remove("hidden");
     document.getElementById("guessBtn").classList.remove("hidden");
-
+    BuildKeyboard();
     fetch(`/api/streak/next?game_id=${currentGameId}`)
         .then(r => r.json())
         .then(data => {
@@ -264,18 +258,38 @@ document.getElementById("guessBtn").addEventListener("click", function () {
         })
         .catch(err => console.error("Error:", err));
 });
-
+function logout()
+{
+    fetch("/api/logout", {method: "POST"})
+    .then(r => r.json())
+    .then(data =>{
+        if(data.success){
+            window.location.href= "/";
+            document.getElementById("loggedAs").textContent = "";
+        }
+        else{
+            alert(data.error)
+        }
+    })   
+}
+window.addEventListener("load",function()
+{
+    fetch("/api/me")
+    .then(r => r.json())
+    .then(data =>{
+        if(data.nick)
+        {
+            document.getElementById("loggedAs").textContent = `Logged in as: ${data.nick}`;
+        }
+    })
+})
 document.getElementById("nextWordBtn").addEventListener("click", nextStreakWord);
 document.getElementById("dailyBtn").addEventListener("click", startDaily);
-document.getElementById("streakBtn").addEventListener("click", showNickScreen);
-
-document.getElementById("startStreakBtn").addEventListener("click", function () {
-    const nick = document.getElementById("nickInput").value.trim();
-    if (!nick) { alert("Enter a nick!"); return; }
-    startStreak(nick);
+document.getElementById("streakBtn").addEventListener("click", function () {
+    startStreak();
 });
 
 document.getElementById("backFromNickBtn").addEventListener("click", showMenu);
 document.getElementById("backBtn").addEventListener("click", showMenu);
-
 window.addEventListener("load", showMenu);
+document.getElementById("logoutBtn").addEventListener("click",logout)

@@ -1,4 +1,4 @@
-from app import db 
+from app import db
 import datetime
 from argon2 import PasswordHasher
 
@@ -17,6 +17,17 @@ class User(db.Model):
         db.session.add(new_user)
         db.session.commit()
         return new_user
-
+    @classmethod
+    def check_password(cls,nick,password):
+        psw = PasswordHasher()
+        user = User.query.filter_by(nick=nick).first()
+        if user:
+            try:
+                if psw.verify(user.password,password):
+                    return user
+            except:
+                return None
+            return None
+                    
         
         
