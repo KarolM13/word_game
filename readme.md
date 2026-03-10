@@ -27,7 +27,8 @@ word_game/
 ├── app/
 │   ├── models/
 │   │   ├── word.py         # Word model
-│   │   └── score.py        # Score model
+│   │   ├── score.py        # Score model
+│   │   └── user.py         # User model
 │   ├── routes/
 │   │   └── game_routes.py  # API endpoints
 │   ├── services/
@@ -50,10 +51,14 @@ word_game/
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | /api/daily | Get daily word game |
-| GET | /api/streak/start?nick= | Start a streak session |
+| GET | /api/streak/start | Start a streak session (requires login) |
 | GET | /api/streak/next?game_id= | Get next word in streak |
 | POST | /api/guess | Submit a guess |
 | GET | /api/leaderboard | Get top 10 scores |
+| POST | /api/register_user | Register a new user (nick, password) |
+| POST | /api/login_user | Login with existing user (rate limited: 5/min) |
+| POST | /api/logout | Logout current user |
+| GET | /api/me | Get current logged in user |
 
 ## Running locally
 
@@ -67,11 +72,13 @@ App runs at http://localhost:5050
 
 ## Database
 
-PostgreSQL with two tables:
+PostgreSQL with three tables:
 
 **words** - id, word, category, date (date is null for streak words, set for daily words)
 
 **scores** - id, nick, streak, date
+
+**users** - id, nick, password (hashed with Argon2), date
 
 Words are seeded automatically on first startup from `app/seeds.py`.
 
@@ -80,8 +87,10 @@ Words are seeded automatically on first startup from `app/seeds.py`.
 - Python 3.11
 - Flask
 - Flask-SQLAlchemy
+- Flask-Limiter (rate limiting)
 - PostgreSQL
 - psycopg2
+- Argon2 (password hashing)
 - HTML / CSS / JavaScript
 - Docker / Docker Compose
 
