@@ -59,6 +59,7 @@ word_game/
 | POST | /api/login_user | Login with existing user (rate limited: 5/min) |
 | POST | /api/logout | Logout current user |
 | GET | /api/me | Get current logged in user |
+| DELETE | /api/acc_delete | Delete current logged in user account |
 
 ## Running locally
 
