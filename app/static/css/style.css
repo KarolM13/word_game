@@ -445,3 +445,11 @@ footer {
     background-color: #538d4e;
     color: white;
 }
+#deleteBtn{
+    background-color: rgb(236, 35, 35);
+    color: white
+}
+
+#deleteBtn:hover {
+    background-color: #c0392b;
+}

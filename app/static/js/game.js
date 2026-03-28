@@ -272,6 +272,23 @@ function logout()
         }
     })   
 }
+function delete_acc()
+{
+    let sure = prompt("Type below 'delete' to delete your account ")
+    if(sure == "delete")
+    {
+    fetch("/api/acc_delete", {method: "DELETE"})
+    .then(r => r.json())
+    .then(data =>{
+        if(data.success){
+            alert("Account deleted!")
+            window.location.href = "/";
+        }
+        else{
+            alert(data.error)
+        }
+    })}
+}
 window.addEventListener("load",function()
 {
     fetch("/api/me")
@@ -280,6 +297,9 @@ window.addEventListener("load",function()
         if(data.nick)
         {
             document.getElementById("loggedAs").textContent = `Logged in as: ${data.nick}`;
+            document.getElementById("loginPageBtn").classList.add("hidden");
+            document.getElementById("deleteBtn").classList.remove("hidden");
+            document.getElementById("logoutBtn").classList.remove("hidden");
         }
     })
 })
@@ -293,3 +313,4 @@ document.getElementById("backFromNickBtn").addEventListener("click", showMenu);
 document.getElementById("backBtn").addEventListener("click", showMenu);
 window.addEventListener("load", showMenu);
 document.getElementById("logoutBtn").addEventListener("click",logout)
+document.getElementById("deleteBtn").addEventListener("click",delete_acc)

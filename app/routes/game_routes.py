@@ -79,7 +79,7 @@ def daily_game():
 def streak_start():
     nick = session.get("nick")
     if not nick:
-        return jsonify({"error": "Nick is required"})
+        return jsonify({"error": "U must be logged in"})
     random_word = Word.get_random_word()
     if not random_word:
         return jsonify({"error": "No words in database"}), 400
@@ -178,3 +178,15 @@ def me():
     if nick:
         return jsonify({"nick":nick})
     return jsonify({"nick": None})
+@game_bp.route("/api/acc_delete", methods = ["DELETE"])
+def acc_delete():
+    nick = session.get("nick")
+    if not nick:
+        return jsonify({"error": "U must be logged in to delete account!"}),400
+    user = User.query.filter_by(nick=nick).first()
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        session.pop("nick",None)
+        return jsonify({"success": True})
+    return jsonify({"error": "User not found!"}),404
