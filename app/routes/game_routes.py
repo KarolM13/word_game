@@ -48,9 +48,17 @@ def guess():
                 result["streak"] = streak_data["streak"]
                 result["next"] = True
             else:
-                score = Score(nick=streak_data["nick"], streak=streak_data["streak"])
-                db.session.add(score)
-                db.session.commit()
+                nick = streak_data["nick"]
+                score = Score(nick = streak_data["nick"] , streak=streak_data["streak"])
+                exscore = Score.query.filter_by(nick=nick).first()
+                if exscore:
+                    if score.streak > exscore.streak:
+                        db.session.delete(exscore)
+                        db.session.add(score)
+                        db.session.commit()
+                else:
+                    db.session.add(score)
+                    db.session.commit()
                 result["streak"] = streak_data["streak"]
                 result["next"] = False
                 del active_streaks[game_id]
@@ -185,6 +193,10 @@ def acc_delete():
         return jsonify({"error": "U must be logged in to delete account!"}),400
     user = User.query.filter_by(nick=nick).first()
     if user:
+        score = Score.query.filter_by(nick=nick).first()
+        if score:
+            db.session.delete(score)
+            db.session.commit()
         db.session.delete(user)
         db.session.commit()
         session.pop("nick",None)
